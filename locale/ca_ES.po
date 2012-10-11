@@ -1,0 +1,7 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:sale.sale,payment_type:"
+msgid "Payment Type"
+msgstr "Tipus de pagament"

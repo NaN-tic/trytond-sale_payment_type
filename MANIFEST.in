@@ -1,0 +1,9 @@
+include INSTALL
+include README
+include TODO
+include CHANGELOG
+include COPYRIGHT
+include LICENSE
+include *.xml
+include locale/*.po
+include doc/*

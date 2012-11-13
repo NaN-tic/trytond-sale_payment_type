@@ -33,14 +33,14 @@ setup(name='trytonzz_sale_payment_type',
     author='Zikzakmedia SL',
     author_email='zikzak@zikzakmedia.com',
     url='http://www.zikzakmedia.com',
-    download_url="https://bitbucket.org/zikzakmedia/trytonzz-sale_payment_type",
-    package_dir={'trytonzz.modules.sale_payment_type': '.'},
+    download_url="https://bitbucket.org/zikzakmedia/trytond-sale_payment_type",
+    package_dir={'trytond.modules.sale_payment_type': '.'},
     packages=[
-        'trytonzz.modules.sale_payment_type',
-        'trytonzz.modules.sale_payment_type.tests',
+        'trytond.modules.sale_payment_type',
+        'trytond.modules.sale_payment_type.tests',
     ],
     package_data={
-        'trytonzz.modules.sale_payment_type': info.get('xml', []) \
+        'trytond.modules.sale_payment_type': info.get('xml', []) \
                 + info.get('translation', []) \
                 + ['icons/*.svg'],
     },
@@ -64,9 +64,9 @@ setup(name='trytonzz_sale_payment_type',
     install_requires=requires,
     zip_safe=False,
     entry_points="""
-    [trytonzz.modules]
-    sale_payment_type = trytonzz.modules.sale_payment_type
+    [trytond.modules]
+    sale_payment_type = trytond.modules.sale_payment_type
     """,
     test_suite='tests',
-    test_loader='trytonzz.test_loader:Loader',
+    test_loader='trytond.test_loader:Loader',
 )

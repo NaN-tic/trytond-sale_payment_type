@@ -9,8 +9,8 @@ Tipos de pagos en pedidos de venta
 
 .. |menu_party_form| tryref:: party.menu_party_form/complete_name
 
-Módulos que dependen
-====================
+Módulos de los que depende
+==========================
 
 Instalados
 ----------

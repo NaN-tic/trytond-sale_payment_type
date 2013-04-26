@@ -5,7 +5,6 @@
 
 from setuptools import setup
 import re
-import os
 import ConfigParser
 
 config = ConfigParser.ConfigParser()

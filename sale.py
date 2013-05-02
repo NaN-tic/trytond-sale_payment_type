@@ -19,7 +19,8 @@ class Sale:
     __name__ = 'sale.sale'
 
     payment_type = fields.Many2One('account.payment.type',
-        'Payment Type', states=_STATES, depends=_DEPENDS)
+        'Payment Type', states=_STATES, depends=_DEPENDS,
+        domain=[('kind','=','receivable')])
 
     @classmethod
     def default_payment_type(cls):

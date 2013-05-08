@@ -1,5 +1,5 @@
 #This file is part of sale_payment_type module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains 
+#The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
 
 from trytond.model import fields
@@ -13,6 +13,7 @@ _STATES = {
     'readonly': Eval('state') != 'draft',
 }
 _DEPENDS = ['state']
+
 
 class Sale:
     'Sale'
@@ -38,5 +39,8 @@ class Sale:
     def _get_invoice_sale(self, invoice_type):
         invoice = super(Sale, self)._get_invoice_sale(invoice_type)
         if self.payment_type:
+            if invoice_type == 'out_credit_note':
+                payment_type = self.party.supplier_payment_type
+                self.write([self], {'payment_type': payment_type})
             invoice.payment_type = self.payment_type
         return invoice

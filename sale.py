@@ -41,6 +41,6 @@ class Sale:
         if self.payment_type:
             if invoice_type == 'out_credit_note':
                 invoice.payment_type = self.party.supplier_payment_type
-            else
+            else:
                 invoice.payment_type = self.payment_type
         return invoice

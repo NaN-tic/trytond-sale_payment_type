@@ -16,9 +16,7 @@ _DEPENDS = ['state']
 
 
 class Sale:
-    'Sale'
     __name__ = 'sale.sale'
-
     payment_type = fields.Many2One('account.payment.type', 'Payment Type',
         domain=[('kind', '=', 'receivable')], states=_STATES, depends=_DEPENDS)
 

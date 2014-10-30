@@ -6,13 +6,22 @@ from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
-__all__ = ['Sale']
+__all__ = ['PaymentType', 'Sale']
 __metaclass__ = PoolMeta
 
 _STATES = {
     'readonly': Eval('state') != 'draft',
 }
 _DEPENDS = ['state']
+
+
+class PaymentType:
+    __name__ = 'account.payment.type'
+
+    @classmethod
+    def __setup__(cls):
+        super(PaymentType, cls).__setup__()
+        cls._check_modify_related_models.add(('sale.sale', 'payment_type'))
 
 
 class Sale:

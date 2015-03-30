@@ -1,7 +1,8 @@
-#:after:sale/sale:section:lineas_del_pedido_de_venta#
+#:after:sale/sale:paragraph:campos_venta#
 
-Tipos de pago
--------------
 
-En en pedido de venta puede relacionar con un tipo de pago. El tipo de pago
-se traspasa del pedido de venta a la factura cuando el pedido genera la factura.
+En el campo |payment_type| podremos relacionar la venta con un tipo de pago
+acordado con el tercero. El tipo de pago se traspasará del pedido de venta
+a la factura cuando esta se genere.
+
+.. |payment_type| field:: sale.sale/payment_type

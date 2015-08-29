@@ -36,11 +36,12 @@ class Sale:
         if len(payment_types) == 1:
             return payment_types[0].id
 
+    @fields.depends('party')
     def on_change_party(self):
-        changes = super(Sale, self).on_change_party()
+        self.payment_type = None
+        super(Sale, self).on_change_party()
         if self.party and self.party.customer_payment_type:
-            changes['payment_type'] = self.party.customer_payment_type.id
-        return changes
+            self.payment_type = self.party.customer_payment_type
 
     def _get_invoice_sale(self, invoice_type):
         invoice = super(Sale, self)._get_invoice_sale(invoice_type)

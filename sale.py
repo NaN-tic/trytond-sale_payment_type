@@ -7,7 +7,6 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
 __all__ = ['PaymentType', 'Sale']
-__metaclass__ = PoolMeta
 
 _STATES = {
     'readonly': Eval('state') != 'draft',
@@ -16,6 +15,7 @@ _DEPENDS = ['state']
 
 
 class PaymentType:
+    __metaclass__ = PoolMeta
     __name__ = 'account.payment.type'
 
     @classmethod
@@ -25,6 +25,7 @@ class PaymentType:
 
 
 class Sale:
+    __metaclass__ = PoolMeta
     __name__ = 'sale.sale'
     payment_type = fields.Many2One('account.payment.type', 'Payment Type',
         domain=[('kind', '=', 'receivable')], states=_STATES, depends=_DEPENDS)

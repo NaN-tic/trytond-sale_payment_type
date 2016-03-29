@@ -47,7 +47,7 @@ class Sale:
     def _get_invoice_sale(self, invoice_type):
         invoice = super(Sale, self)._get_invoice_sale(invoice_type)
         if self.payment_type:
-            if invoice_type == 'out_credit_note':
+            if invoice_type == 'out' and self.total_amount < 0.0:
                 invoice.payment_type = self.party.supplier_payment_type
             else:
                 invoice.payment_type = self.payment_type

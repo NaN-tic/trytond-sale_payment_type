@@ -44,11 +44,22 @@ class Sale:
         if self.party and self.party.customer_payment_type:
             self.payment_type = self.party.customer_payment_type
 
+    def _get_grouped_invoice_domain(self, invoice):
+        invoice_domain = super(Sale, self)._get_grouped_invoice_domain(invoice)
+        invoice_domain.append(
+            ('payment_type', '=', self._get_invoice_payment_type(invoice)))
+        return invoice_domain
+
     def _get_invoice_sale(self):
         invoice = super(Sale, self)._get_invoice_sale()
+        invoice.payment_type = self._get_invoice_payment_type(invoice)
+        return invoice
+
+    def _get_invoice_payment_type(self, invoice):
+        if getattr(invoice, 'payment_type', False):
+            return invoice.payment_type
         if self.payment_type:
             if invoice.type == 'out' and self.total_amount < 0.0:
-                invoice.payment_type = self.party.supplier_payment_type
+                return self.party.supplier_payment_type
             else:
-                invoice.payment_type = self.payment_type
-        return invoice
+                return self.payment_type

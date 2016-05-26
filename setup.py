@@ -12,13 +12,16 @@ try:
 except ImportError:
     from ConfigParser import ConfigParser
 
-MODULE2PREFIX = {}
+MODULE2PREFIX = {
+    'account_payment_type': 'trytonspain',
+    }
 
 
 def read(fname):
     return io.open(
         os.path.join(os.path.dirname(__file__), fname),
         'r', encoding='utf-8').read()
+
 
 def get_require_version(name):
     if minor_version % 2:

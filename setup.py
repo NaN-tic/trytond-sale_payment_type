@@ -10,7 +10,9 @@ import ConfigParser
 
 MODULE = 'sale_payment_type'
 PREFIX = 'trytonspain'
-MODULE2PREFIX = {}
+MODULE2PREFIX = {
+    'account_payment_type': 'trytonspain',
+    }
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()

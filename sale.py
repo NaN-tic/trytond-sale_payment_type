@@ -6,7 +6,7 @@ from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
-__all__ = ['PaymentType', 'Sale']
+__all__ = ['PaymentType', 'Sale', 'Opportunity']
 
 _STATES = {
     'readonly': Eval('state') != 'draft',
@@ -106,3 +106,14 @@ class Sale:
             if payment_type:
                 return payment_type
         return None
+
+
+class Opportunity:
+    __metaclass__ = PoolMeta
+    __name__ = 'sale.opportunity'
+
+    def _get_sale_opportunity(self):
+        sale = super(Opportunity, self)._get_sale_opportunity()
+        if sale.party and sale.party.customer_payment_type:
+            sale.payment_type = self.party.customer_payment_type
+        return sale

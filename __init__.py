@@ -9,4 +9,5 @@ def register():
     Pool.register(
         PaymentType,
         Sale,
+        Opportunity,
         module='sale_payment_type', type_='model')

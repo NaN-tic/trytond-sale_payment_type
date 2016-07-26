@@ -1,12 +1,12 @@
-#This file is part of sale_payment_type module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains
-#the full copyright notices and license terms.
+# This file is part of sale_payment_type module for Tryton.
+# The COPYRIGHT file at the top level of this repository contains
+# the full copyright notices and license terms.
 
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
-__all__ = ['PaymentType', 'Sale']
+__all__ = ['PaymentType', 'Sale', 'Opportunity']
 
 _STATES = {
     'readonly': Eval('state') != 'draft',
@@ -63,3 +63,14 @@ class Sale:
                 return self.party.supplier_payment_type
             else:
                 return self.payment_type
+
+
+class Opportunity:
+    __metaclass__ = PoolMeta
+    __name__ = 'sale.opportunity'
+
+    def _get_sale_opportunity(self):
+        sale = super(Opportunity, self)._get_sale_opportunity()
+        if sale.party and sale.party.customer_payment_type:
+            sale.payment_type = self.party.customer_payment_type
+        return sale

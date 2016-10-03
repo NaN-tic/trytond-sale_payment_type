@@ -28,7 +28,10 @@ class Sale:
     __metaclass__ = PoolMeta
     __name__ = 'sale.sale'
     payment_type = fields.Many2One('account.payment.type', 'Payment Type',
-        domain=[('kind', '=', 'receivable')], states=_STATES, depends=_DEPENDS)
+        states=_STATES, depends=_DEPENDS,
+        domain=[
+            ('kind', 'in', ['both', 'receivable']),
+            ])
 
     @classmethod
     def default_payment_type(cls):
@@ -59,7 +62,7 @@ class Sale:
         if getattr(invoice, 'payment_type', False):
             return invoice.payment_type
         if self.payment_type:
-            if invoice.type == 'out' and self.total_amount < 0.0:
+            if self.payment_type.kind != 'both' and self.total_amount < 0.0:
                 return self.party.supplier_payment_type
             else:
                 return self.payment_type

@@ -19,7 +19,7 @@ Imports::
 
 Install sale_payment_type::
 
-    >>> config = activate_modules('sale_payment_type')
+    >>> config = activate_modules(['sale_payment_type', 'sale_invoice_grouping'])
 
 Create company::
 
@@ -92,6 +92,7 @@ Create party::
 
     >>> Party = Model.get('party.party')
     >>> party = Party(name='Party')
+    >>> party.sale_invoice_grouping_method = 'standard'
     >>> party.customer_payment_type = receivable
     >>> party.supplier_payment_type = payable
     >>> party.save()
@@ -146,7 +147,7 @@ Sale with payment type payable and negative untaxed amount::
     >>> invoice.payment_type == payable
     True
 
-Invoice more than salabled::
+Group other sale with payment type payable and negative untaxed amount::
 
     >>> sale = Sale()
     >>> sale.party = party
@@ -156,30 +157,47 @@ Invoice more than salabled::
     >>> sale_line = SaleLine()
     >>> sale.lines.append(sale_line)
     >>> sale_line.product = product
-    >>> sale_line.quantity = 2.0
+    >>> sale_line.quantity = -2.0
+    >>> sale_line = SaleLine()
+    >>> sale.lines.append(sale_line)
+    >>> sale_line.product = product
+    >>> sale_line.quantity = -3.0
     >>> sale.click('quote')
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
     u'processing'
     >>> invoice, = sale.invoices
-    >>> line, = invoice.lines
-    >>> line.quantity = 10.0
-    >>> line.save()
-    >>> invoice.reload()
-    >>> invoice.invoice_date = today
-    >>> invoice.save()
-    >>> invoice.click('validate_invoice')
-    >>> invoice.click('post')
-    >>> sale.reload()
-    >>> len(sale.invoices)
-    2
-    >>> invoice1, invoice2 = sale.invoices
-    >>> invoice1.untaxed_amount > Decimal('0.0')
+    >>> invoice.payment_type == payable
     True
-    >>> invoice1.payment_type == receivable
-    True
-    >>> invoice2.untaxed_amount > Decimal('0.0')
-    False
-    >>> invoice2.payment_type == payable
+    >>> len(invoice.lines)
+    4
+    >>> line1, line2, line3, line4 = invoice.lines
+    >>> line1.origin.sale.number
+    u'2'
+    >>> line3.origin.sale.number
+    u'3'
+
+Sale with payment type both::
+
+    >>> sale = Sale()
+    >>> sale.party = party
+    >>> sale.payment_term = payment_term
+    >>> sale.payment_type = both
+    >>> sale.invoice_method = 'order'
+    >>> sale_line = SaleLine()
+    >>> sale.lines.append(sale_line)
+    >>> sale_line.product = product
+    >>> sale_line.quantity = -2.0
+    >>> sale_line = SaleLine()
+    >>> sale.lines.append(sale_line)
+    >>> sale_line.product = product
+    >>> sale_line.quantity = -3.0
+    >>> sale.click('quote')
+    >>> sale.click('confirm')
+    >>> sale.click('process')
+    >>> sale.state
+    u'processing'
+    >>> invoice, = sale.invoices
+    >>> invoice.payment_type == both
     True

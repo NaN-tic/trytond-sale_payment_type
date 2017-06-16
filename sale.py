@@ -60,9 +60,11 @@ class Sale:
                 invoice_lines = []
                 for line in self.lines:
                     if line.type == 'line':
-                        iline, = line.get_invoice_line()
-                        setattr(iline, 'amount', iline.on_change_with_amount())
-                        invoice_lines.append(iline)
+                        ilines = line.get_invoice_line()
+                        if ilines:
+                            iline, = ilines
+                            setattr(iline, 'amount', iline.on_change_with_amount())
+                            invoice_lines.append(iline)
                 invoice.lines = invoice_lines
             invoice.on_change_lines()
             # reset lines

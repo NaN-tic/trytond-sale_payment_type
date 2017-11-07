@@ -94,10 +94,7 @@ class Sale:
         return invoice
 
     def _get_invoice_payment_type(self, invoice):
-        if not self.payment_type:
-            return None
-
-        if self.payment_type.kind == 'both':
+        if self.payment_type and self.payment_type.kind == 'both':
             return self.payment_type
 
         if invoice.untaxed_amount >= ZERO:
@@ -107,13 +104,11 @@ class Sale:
             kind = 'payable'
             name = 'supplier_payment_type'
 
-        if self.payment_type.kind == kind:
+        if self.payment_type and self.payment_type.kind == kind:
             return self.payment_type
         else:
             payment_type = getattr(self.party, name)
-            if payment_type:
-                return payment_type
-        return None
+            return payment_type if payment_type else None
 
 
 class Opportunity:
@@ -125,4 +120,3 @@ class Opportunity:
         if sale.party and sale.party.customer_payment_type:
             sale.payment_type = self.party.customer_payment_type
         return sale
-

@@ -194,3 +194,27 @@ Invoice more than salabled::
     False
     >>> invoice2.payment_type == payable
     True
+
+Sale without payment type and party with default payment type::
+
+    >>> sale = Sale()
+    >>> sale.party = party
+    >>> sale.payment_term = payment_term
+    >>> sale.payment_type = None
+    >>> sale.invoice_method = 'order'
+    >>> sale_line = SaleLine()
+    >>> sale.lines.append(sale_line)
+    >>> sale_line.product = product
+    >>> sale_line.quantity = -2.0
+    >>> sale_line = SaleLine()
+    >>> sale.lines.append(sale_line)
+    >>> sale_line.product = product
+    >>> sale_line.quantity = -3.0
+    >>> sale.click('quote')
+    >>> sale.click('confirm')
+    >>> sale.click('process')
+    >>> sale.state
+    u'processing'
+    >>> invoice, = sale.invoices
+    >>> invoice.payment_type == payable
+    True

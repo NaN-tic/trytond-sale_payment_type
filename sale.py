@@ -55,21 +55,7 @@ class Sale:
         # _get_grouped_invoice_domain not return an invoice with lines and untaxed
         # amount; we need to recompute those values
         if not hasattr(invoice, 'untaxed_amount'):
-            has_lines = hasattr(invoice, 'lines')
-            if not has_lines:
-                invoice_lines = []
-                for line in self.lines:
-                    if line.type == 'line':
-                        ilines = line.get_invoice_line()
-                        if ilines:
-                            iline, = ilines
-                            setattr(iline, 'amount', iline.on_change_with_amount())
-                            invoice_lines.append(iline)
-                invoice.lines = invoice_lines
-            invoice.on_change_lines()
-            # reset lines
-            if not has_lines:
-                invoice.lines = []
+            invoice.untaxed_amount = self.untaxed_amount
 
         invoice_domain.append(
             ('payment_type', '=', self._get_invoice_payment_type(invoice)))

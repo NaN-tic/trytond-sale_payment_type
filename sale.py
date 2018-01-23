@@ -1,6 +1,6 @@
-#This file is part of sale_payment_type module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains
-#the full copyright notices and license terms.
+# This file is part of sale_payment_type module for Tryton.  The COPYRIGHT file
+# at the top level of this repository contains the full copyright notices and
+# license terms.
 from decimal import Decimal
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
@@ -51,9 +51,9 @@ class Sale:
     def _get_grouped_invoice_domain(self, invoice):
         invoice_domain = super(Sale, self)._get_grouped_invoice_domain(invoice)
 
-        # know about the invoice is payable or receivable payment type (untaxed amount)
-        # _get_grouped_invoice_domain not return an invoice with lines and untaxed
-        # amount; we need to recompute those values
+        # know about the invoice is payable or receivable payment type (untaxed
+        # amount) _get_grouped_invoice_domain not return an invoice with lines
+        # and untaxed amount; we need to recompute those values
         if not hasattr(invoice, 'untaxed_amount'):
             invoice.untaxed_amount = self.untaxed_amount
 

@@ -10,5 +10,8 @@ def register():
     Pool.register(
         sale.PaymentType,
         sale.Sale,
+        module='sale_payment_type', type_='model')
+    Pool.register(
         sale.Opportunity,
+        depends=['sale_opportunity'],
         module='sale_payment_type', type_='model')

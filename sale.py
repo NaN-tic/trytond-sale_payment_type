@@ -15,8 +15,7 @@ _DEPENDS = ['state']
 ZERO = Decimal('0.0')
 
 
-class PaymentType:
-    __metaclass__ = PoolMeta
+class PaymentType(metaclass=PoolMeta):
     __name__ = 'account.payment.type'
 
     @classmethod
@@ -25,8 +24,7 @@ class PaymentType:
         cls._check_modify_related_models.add(('sale.sale', 'payment_type'))
 
 
-class Sale:
-    __metaclass__ = PoolMeta
+class Sale(metaclass=PoolMeta):
     __name__ = 'sale.sale'
     payment_type = fields.Many2One('account.payment.type', 'Payment Type',
         domain=[
@@ -97,8 +95,7 @@ class Sale:
             return payment_type if payment_type else None
 
 
-class Opportunity:
-    __metaclass__ = PoolMeta
+class Opportunity(metaclass=PoolMeta):
     __name__ = 'sale.opportunity'
 
     def _get_sale_opportunity(self):

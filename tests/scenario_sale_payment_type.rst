@@ -124,7 +124,7 @@ Sale with payment type payable::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == receivable
     True
@@ -148,7 +148,7 @@ Sale with payment type payable and negative untaxed amount::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == payable
     True
@@ -168,7 +168,7 @@ Invoice more than salabled::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> line, = invoice.lines
     >>> line.quantity = 10.0
@@ -210,7 +210,7 @@ Sale without payment type and party with default payment type::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == payable
     True

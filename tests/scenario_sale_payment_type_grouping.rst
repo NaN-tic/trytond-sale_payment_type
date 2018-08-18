@@ -120,7 +120,7 @@ Sale with payment type payable::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == receivable
     True
@@ -144,7 +144,7 @@ Sale with payment type payable and negative untaxed amount::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == payable
     True
@@ -168,7 +168,7 @@ Group other sale with payment type payable and negative untaxed amount::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == payable
     True
@@ -176,9 +176,9 @@ Group other sale with payment type payable and negative untaxed amount::
     4
     >>> line1, line2, line3, line4 = invoice.lines
     >>> line1.origin.sale.number
-    u'2'
+    '2'
     >>> line3.origin.sale.number
-    u'3'
+    '3'
 
 Sale with payment type both::
 
@@ -199,7 +199,7 @@ Sale with payment type both::
     >>> sale.click('confirm')
     >>> sale.click('process')
     >>> sale.state
-    u'processing'
+    'processing'
     >>> invoice, = sale.invoices
     >>> invoice.payment_type == both
     True

@@ -34,6 +34,7 @@ class Sale:
             ],
         states=_STATES, depends=_DEPENDS)
 
+
     @classmethod
     def default_payment_type(cls):
         PaymentType = Pool().get('account.payment.type')
@@ -41,7 +42,6 @@ class Sale:
         if len(payment_types) == 1:
             return payment_types[0].id
 
-    @fields.depends('party')
     def on_change_party(self):
         self.payment_type = None
         super(Sale, self).on_change_party()

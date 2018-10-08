@@ -65,6 +65,8 @@ class Sale(metaclass=PoolMeta):
             # set None payment type to control payable/receivable kind
             # depend untaxed amount
             invoice.payment_type = None
+            if hasattr(self.payment_type, 'bank_account'):
+                invoice.bank_account = None
         return invoice
 
     def create_invoice(self):

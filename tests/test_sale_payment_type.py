@@ -26,4 +26,8 @@ def suite():
             tearDown=doctest_teardown, encoding='UTF-8',
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE,
             checker=doctest_checker))
+    suite.addTests(doctest.DocFileSuite('scenario_sale_payment_type_bank_account.rst',
+            tearDown=doctest_teardown, encoding='UTF-8',
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE,
+            checker=doctest_checker))
     return suite

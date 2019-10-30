@@ -40,12 +40,6 @@ Create chart of accounts::
     >>> expense = accounts['expense']
     >>> cash = accounts['cash']
 
-    >>> Journal = Model.get('account.journal')
-    >>> cash_journal, = Journal.find([('type', '=', 'cash')])
-    >>> cash_journal.credit_account = cash
-    >>> cash_journal.debit_account = cash
-    >>> cash_journal.save()
-
 Create tax::
 
     >>> tax = create_tax(Decimal('.10'))

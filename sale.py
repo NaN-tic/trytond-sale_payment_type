@@ -78,7 +78,6 @@ class Sale(metaclass=PoolMeta):
                 invoice.payment_type = payment_type
                 if hasattr(invoice, 'bank_account'):
                     invoice._get_bank_account()
-                invoice.save()
         return invoice
 
     def _get_invoice_payment_type(self, invoice):

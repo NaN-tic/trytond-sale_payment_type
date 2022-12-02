@@ -91,16 +91,9 @@ Create payment type::
     >>> both = PaymentType(name='Both', kind='both')
     >>> both.save()
 
-Create party::
-
-    >>> Party = Model.get('party.party')
-    >>> party = Party(name='Party')
-    >>> party.customer_payment_type = receivable
-    >>> party.supplier_payment_type = payable
-    >>> party.save()
-
 Create bank account::
 
+    >>> Party = Model.get('party.party')
     >>> Bank = Model.get('bank')
     >>> BankAccount = Model.get('bank.account')
     >>> BankNumber = Model.get('bank.account.number')
@@ -118,7 +111,14 @@ Create bank account::
     >>> bank_number.type = 'other'
     >>> bank_number.number = 'not IBAN'
     >>> bank_account.save()
+
+Create party::
+
+    >>> party = Party(name='Party')
+    >>> party.customer_payment_type = receivable
+    >>> party.supplier_payment_type = payable
     >>> party.bank_accounts.append(bank_account)
+    >>> party.receivable_bank_account = bank_account
     >>> party.save()
 
 Sale with payment type payable::

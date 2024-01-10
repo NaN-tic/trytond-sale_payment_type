@@ -11,7 +11,6 @@ __all__ = ['PaymentType', 'Sale', 'Opportunity']
 _STATES = {
     'readonly': Eval('state') != 'draft',
 }
-_DEPENDS = ['state']
 ZERO = Decimal('0.0')
 
 
@@ -30,7 +29,7 @@ class Sale(metaclass=PoolMeta):
         domain=[
             ('kind', 'in', ['both', 'receivable']),
             ],
-        states=_STATES, depends=_DEPENDS)
+        states=_STATES)
 
 
     @classmethod

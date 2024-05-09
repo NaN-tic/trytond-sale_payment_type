@@ -84,9 +84,10 @@ class Sale(metaclass=PoolMeta):
         if self.payment_type and self.payment_type.kind == 'both':
             return self.payment_type
 
+        untaxed_amount = None
         if hasattr(invoice, 'untaxed_amount'):
             untaxed_amount = invoice.untaxed_amount
-        else:
+        if untaxed_amount is None:
             untaxed_amount = sum(l.on_change_with_amount() for l in invoice.lines)
 
         if untaxed_amount >= ZERO:

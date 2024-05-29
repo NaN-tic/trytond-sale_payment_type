@@ -11,7 +11,7 @@ __all__ = ['PaymentType', 'Sale', 'Opportunity']
 _STATES = {
     'readonly': Eval('state') != 'draft',
 }
-ZERO = Decimal('0.0')
+ZERO = Decimal(0)
 
 
 class PaymentType(metaclass=PoolMeta):

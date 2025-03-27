@@ -83,11 +83,17 @@ class Sale(metaclass=PoolMeta):
         if self.payment_type and self.payment_type.kind == 'both':
             return self.payment_type
 
+        # issue10801 invoice has not untaxed_amount and lines has not amount
+        # because is pending to do save() or in case grouping invoice,
+        # sum new lines and current invoice lines
+        # (could change negative to positve untaxed amount or viceversa)
         untaxed_amount = None
-        if hasattr(invoice, 'untaxed_amount'):
-            untaxed_amount = invoice.untaxed_amount
-        if untaxed_amount is None:
+        if hasattr(invoice, 'lines'):
             untaxed_amount = sum(l.on_change_with_amount() for l in invoice.lines)
+        elif hasattr(invoice, 'untaxed_amount'):
+            untaxed_amount = invoice.untaxed_amount
+        if not untaxed_amount:
+            return
 
         if untaxed_amount >= ZERO:
             kind = 'receivable'

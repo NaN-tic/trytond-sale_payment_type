@@ -184,3 +184,23 @@ class Test(unittest.TestCase):
 
         invoice, = sale.invoices
         self.assertEqual(invoice.payment_type, both)
+
+        # Group other sale with payment type payable and untaxed amount is 0
+        sale = Sale()
+        sale.party = party
+        sale.payment_term = payment_term
+        sale.payment_type = receivable
+        sale.invoice_method = 'order'
+        sale_line = SaleLine()
+        sale.lines.append(sale_line)
+        sale_line.product = product
+        sale_line.quantity = 2.0
+        sale_line.unit_price = Decimal(0)
+        sale.click('quote')
+        sale.click('confirm')
+        sale.click('process')
+        self.assertEqual(sale.state, 'processing')
+
+        invoice, = sale.invoices
+        self.assertEqual(invoice.payment_type, receivable)
+        self.assertEqual(len(invoice.lines), 3)

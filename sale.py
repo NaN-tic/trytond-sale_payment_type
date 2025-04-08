@@ -92,7 +92,7 @@ class Sale(metaclass=PoolMeta):
             untaxed_amount = sum(l.on_change_with_amount() for l in invoice.lines)
         elif hasattr(invoice, 'untaxed_amount'):
             untaxed_amount = invoice.untaxed_amount
-        if not untaxed_amount:
+        if untaxed_amount is None:
             return
 
         if untaxed_amount >= ZERO:

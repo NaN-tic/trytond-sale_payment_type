@@ -58,8 +58,8 @@ class Sale(metaclass=PoolMeta):
             ('payment_type', '=', self._get_invoice_payment_type(invoice)))
         return invoice_domain
 
-    def _get_invoice_sale(self):
-        invoice = super(Sale, self)._get_invoice_sale()
+    def _get_invoice(self):
+        invoice = super(Sale, self)._get_invoice()
         if self.payment_type:
             # set None payment type to control payable/receivable kind
             # depend untaxed amount

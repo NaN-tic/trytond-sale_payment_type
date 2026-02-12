@@ -204,3 +204,46 @@ class Test(unittest.TestCase):
         invoice, = sale.invoices
         self.assertEqual(invoice.payment_type, receivable)
         self.assertEqual(len(invoice.lines), 3)
+
+        # Sale with mixed amounts, then adjust invoice and re-process
+        sale = Sale()
+        sale.party = party
+        sale.payment_term = payment_term
+        sale.payment_type = receivable
+        sale.invoice_method = 'order'
+        sale_line = SaleLine()
+        sale.lines.append(sale_line)
+        sale_line.product = product
+        sale_line.quantity = 1.0
+        sale_line.unit_price = Decimal('100')
+        sale_line = SaleLine()
+        sale.lines.append(sale_line)
+        sale_line.product = product
+        sale_line.quantity = 1.0
+        sale_line.unit_price = Decimal('-25')
+        sale.click('quote')
+        sale.click('confirm')
+        sale.click('process')
+        self.assertEqual(sale.state, 'processing')
+
+        invoice, = sale.invoices
+        self.assertEqual(invoice.untaxed_amount > Decimal(0), True)
+        self.assertEqual(invoice.payment_type, receivable)
+
+        invoice.click('post')
+        self.assertEqual(invoice.untaxed_amount > Decimal(0), True)
+
+        for line in invoice.lines:
+            if line.amount and line.amount < Decimal(0):
+                line.origin = None
+                line.save()
+                break
+
+        sale.reload()
+        self.assertEqual(any(l.invoice_lines for l in sale.lines), True)
+        self.assertEqual(any(not l.invoice_lines for l in sale.lines), True)
+        sale.click('process')
+        self.assertEqual(len(sale.invoices), 2)
+        _, inv2 = sale.invoices
+        self.assertEqual(inv2.untaxed_amount, Decimal('-25.00'))
+        self.assertEqual(inv2.payment_type, payable)

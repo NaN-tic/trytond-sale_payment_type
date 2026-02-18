@@ -10,6 +10,7 @@ def register():
     Pool.register(
         sale.PaymentType,
         sale.Sale,
+        sale.SaleLine,
         module='sale_payment_type', type_='model')
     Pool.register(
         sale.Opportunity,

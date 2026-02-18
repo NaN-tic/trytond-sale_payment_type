@@ -6,8 +6,6 @@ from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
-__all__ = ['PaymentType', 'Sale', 'Opportunity']
-
 _STATES = {
     'readonly': Eval('state') != 'draft',
 }
@@ -117,3 +115,17 @@ class Opportunity(metaclass=PoolMeta):
         if sale.party and sale.party.customer_payment_type:
             sale.payment_type = self.party.customer_payment_type
         return sale
+
+
+class SaleLine(metaclass=PoolMeta):
+    __name__ = 'sale.line'
+
+    def get_invoice_line(self):
+        invoice_lines = super().get_invoice_line()
+        if not invoice_lines:
+            return invoice_lines
+        for invoice_line in invoice_lines:
+            # Ensure amount is set because on_change_with_payment_type()
+            # recomputes untaxed_amount and requires invoice_line.amount.
+            invoice_line.amount = invoice_line.on_change_with_amount()
+        return invoice_lines

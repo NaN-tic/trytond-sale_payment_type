@@ -167,11 +167,12 @@ class Test(unittest.TestCase):
         sale.reload()
         self.assertEqual(len(sale.invoices), 2)
 
-        invoice1, invoice2 = sale.invoices
-        self.assertGreater(invoice1.untaxed_amount, Decimal('0.0'))
-        self.assertEqual(invoice1.payment_type, receivable)
-        self.assertLessEqual(invoice2.untaxed_amount, Decimal('0.0'))
-        self.assertEqual(invoice2.payment_type, payable)
+        positive = next(
+            i for i in sale.invoices if i.untaxed_amount > Decimal('0.0'))
+        negative = next(
+            i for i in sale.invoices if i.untaxed_amount <= Decimal('0.0'))
+        self.assertEqual(positive.payment_type, receivable)
+        self.assertEqual(negative.payment_type, payable)
 
         # Sale without payment type and party with default payment type
         sale = Sale()

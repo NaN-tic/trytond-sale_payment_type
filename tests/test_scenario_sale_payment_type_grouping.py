@@ -244,6 +244,6 @@ class Test(unittest.TestCase):
         self.assertEqual(any(not l.invoice_lines for l in sale.lines), True)
         sale.click('process')
         self.assertEqual(len(sale.invoices), 2)
-        _, inv2 = sale.invoices
+        inv2, = [i for i in sale.invoices if i.state == 'draft']
         self.assertEqual(inv2.untaxed_amount, Decimal('-25.00'))
         self.assertEqual(inv2.payment_type, payable)

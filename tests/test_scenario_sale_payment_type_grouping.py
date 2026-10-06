@@ -25,7 +25,8 @@ class Test(unittest.TestCase):
     def test(self):
 
         # Install sale_payment_type
-        activate_modules(['sale_payment_type', 'sale_invoice_grouping'])
+        config = activate_modules([
+                'sale_payment_type', 'sale_invoice_grouping'])
 
         # Create company
         _ = create_company()
@@ -235,8 +236,9 @@ class Test(unittest.TestCase):
 
         for line in invoice.lines:
             if line.amount and line.amount < Decimal(0):
-                line.origin = None
-                line.save()
+                type(line)._proxy.write(
+                    [line.id], {'origin': None},
+                    {**config.context, '_check_access': False})
                 break
 
         sale.reload()
